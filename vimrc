@@ -159,6 +159,9 @@ let filetype_m='objc'
 " (despite the mappings later):
 autocmd FileType make set noexpandtab shiftwidth=5
 
+" Use markdown highlighting rather than modula-2 for .md files
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
 " pyflakes support for Python code
 filetype plugin on
 
