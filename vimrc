@@ -161,6 +161,35 @@ autocmd FileType make set noexpandtab shiftwidth=5
 
 " Use markdown highlighting rather than modula-2 for .md files
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+autocmd BufNewFile,BufReadPost *.markdown set filetype=markdown
+
+" Ignore math statements and liquid tags in markdown
+" Copied from Scott Sievert's blog:
+" http://scottsievert.com/blog/2016/01/06/vim-jekyll-mathjax/
+function! MathAndLiquid()
+    "" Define certain regions
+    " Block math. Look for "$$[anything]$$"
+    syn region math start=/\$\$/ end=/\$\$/
+    " inline math. Look for "$[not $][anything]$"
+    syn match math_block '\$[^$].\{-}\$'
+
+    " Liquid single line. Look for "{%[anything]%}"
+    syn match liquid '{%.*%}'
+    " Liquid multiline. Look for "{%[anything]%}[anything]{%[anything]%}"
+    syn region highlight_block start='{% highlight .*%}' end='{%.*%}'
+    " Fenced code blocks, used in GitHub Flavored Markdown (GFM)
+    syn region highlight_block start='```' end='```'
+
+    "" Actually highlight those regions.
+    hi link math Statement
+    hi link liquid Statement
+    hi link highlight_block Function
+    hi link math_block Function
+endfunction
+
+" Call everytime we open a Markdown file
+autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown call MathAndLiquid()
+
 
 " pyflakes support for Python code
 filetype plugin on
