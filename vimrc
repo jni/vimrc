@@ -159,9 +159,6 @@ let filetype_m='objc'
 " (despite the mappings later):
 autocmd FileType make set noexpandtab shiftwidth=5
 
-" Use markdown highlighting rather than modula-2 for .md files
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-autocmd BufNewFile,BufReadPost *.markdown set filetype=markdown
 
 " Ignore math statements and liquid tags in markdown
 " Copied from Scott Sievert's blog:
@@ -189,6 +186,12 @@ endfunction
 
 " Call everytime we open a Markdown file
 autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown call MathAndLiquid()
+
+" Use GitHub Flavored Markdown always
+augroup markdown
+    au!
+    au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+augroup END
 
 
 " pyflakes support for Python code
