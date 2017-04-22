@@ -1,9 +1,6 @@
 #!/bin/bash
 
-if [ $# -eq 1 ]; then
-    fn=$1
-else fn=~/.vimrc
-fi
+fn=~/.vimrc
 
 if [ -f $fn ]; then
     bakfn=${fn}.bak
@@ -11,3 +8,12 @@ if [ -f $fn ]; then
 fi
 
 cp `dirname $0`/vimrc $fn
+
+fn=~/.gvimrc
+
+if [ -f $fn ]; then
+    bakfn=${fn}.bak
+    mv $fn $bakfn
+fi
+
+cp `dirname $0`/gvimrc $fn
